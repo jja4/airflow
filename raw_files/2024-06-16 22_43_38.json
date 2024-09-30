@@ -1,0 +1,43 @@
+{
+    "coord": {
+        "lon": 13.4105,
+        "lat": 52.5244
+    },
+    "weather": [
+        {
+            "id": 800,
+            "main": "Clear",
+            "description": "clear sky",
+            "icon": "01n"
+        }
+    ],
+    "base": "stations",
+    "main": {
+        "temp": 290.71,
+        "feels_like": 290.51,
+        "temp_min": 288.72,
+        "temp_max": 292.22,
+        "pressure": 1010,
+        "humidity": 76
+    },
+    "visibility": 10000,
+    "wind": {
+        "speed": 2.06,
+        "deg": 180
+    },
+    "clouds": {
+        "all": 0
+    },
+    "dt": 1718577609,
+    "sys": {
+        "type": 2,
+        "id": 2011538,
+        "country": "DE",
+        "sunrise": 1718592161,
+        "sunset": 1718652722
+    },
+    "timezone": 7200,
+    "id": 2950159,
+    "name": "Berlin",
+    "cod": 200
+}
