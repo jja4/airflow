@@ -1,0 +1,28 @@
+DAG Description
+    The DAG named weather_data_pipeline is designed to fetch weather data from an API, transform the data into CSV files, prepare the data for machine learning, evaluate different machine learning models using cross-validation, and finally train and save the best-performing model.
+    
+    Task 1: Fetch Weather Data from API
+    The first task, fetch_weather_data, fetches weather data from the OpenWeatherMap API for the cities specified in the Airflow Variable 'cities'. The fetched data is stored in a JSON file with a name corresponding to the current date and time in the /app/raw_files directory.
+    Task 2: Transform Data into CSV (last 20 files)
+    The second task, transform_data_csv_20, transforms the last 20 JSON files from the /app/raw_files directory into a CSV file named data.csv and saves it in the /app/clean_data directory.
+    Task 3: Transform Data into CSV (all files)
+    The third task, transform_data_csv_all, transforms all JSON files from the /app/raw_files directory into a CSV file named fulldata.csv and saves it in the /app/clean_data directory.
+    Task 4: Prepare Data and Evaluate Models
+    The fourth task, evaluate_models, prepares the data from the fulldata.csv file for machine learning by creating features and targets. It then evaluates the performance of three machine learning models (Linear Regression, Decision Tree Regression, and Random Forest Regression) using cross-validation. The cross-validation scores for each model are pushed to XCom for later use.
+    Task 5: Train and Save the Best Model
+    The fifth task, train_best_model, retrieves the cross-validation scores from XCom and selects the best-performing model based on the highest score. It then trains the best model on the entire dataset and saves the trained model as best_model.pickle in the /app/clean_data directory.
+
+Task Dependencies
+    The tasks are set to run in the following order: 
+        fetch_weather_data >> [transform_data_csv_20, transform_data_csv_all]
+        transform_data_csv_all >> train_and_evaluate_models_group >> train_best_model
+
+Justification for Design
+    Modular Design: The DAG is designed in a modular way, with separate tasks for fetching data, transforming data, preparing data, evaluating models, and training the best model. This modular approach makes the code easier to maintain, test, and extend.
+    Separation of Concerns: The code is separated into different Python scripts (pull_data.py, transform_data.py, and train_models.py), each responsible for a specific set of tasks. This separation of concerns promotes code reusability and makes it easier to understand and modify individual components.
+    Data Flow: The tasks are designed to follow a logical data flow, where the output of one task serves as input for the next task. This ensures that the data is processed in the correct order and that the necessary dependencies are met.
+    Scalability: The DAG is designed to handle varying amounts of data. The transform_data_into_csv function can process a specified number of files or all available files, allowing for flexibility in handling different data volumes.
+    Model Selection: The DAG incorporates a model selection process by evaluating multiple machine learning models using cross-validation. This ensures that the best-performing model is selected for training and deployment, potentially improving the accuracy and performance of the final model.
+    Scheduling and Monitoring: The DAG is scheduled to run every minute using the schedule_interval='*/1 * * * *' parameter. This allows for frequent updates to the weather data and model training. Additionally, Airflow provides monitoring and logging capabilities, making it easier to track the progress and troubleshoot issues if needed.
+
+Overall, the design of this DAG follows best practices for data pipelines, incorporating modular components, separation of concerns, data flow management, scalability, model selection, and scheduling and monitoring capabilities. These design choices contribute to the functional and maintainable nature of the DAG.
